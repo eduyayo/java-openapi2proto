@@ -1,0 +1,337 @@
+syntax = "proto3";
+
+option java_package = "com.inditex.wms.abstractSor.model.grpc";
+option java_multiple_files = true;
+
+import "commons.proto";
+import "commonsWrappers.proto";
+
+enum GRPCDistributionLineState {
+    GRPCDistributionLineState_NOTSET = 0;
+    GRPCDistributionLineState_NEW = 1;
+    GRPCDistributionLineState_ACTIVE = 2;
+    GRPCDistributionLineState_OPEN = 3;
+    GRPCDistributionLineState_CLOSING = 4;
+    GRPCDistributionLineState_FINISHING = 5;
+    GRPCDistributionLineState_CLOSED = 6;
+    GRPCDistributionLineState_FINISHED = 7;
+    GRPCDistributionLineState_RETURNED = 8;
+    GRPCDistributionLineState_CANCELLED = 9;
+}
+
+enum GRPCDistributionState {
+    GRPCDistributionState_NOTSET = 0;
+    GRPCDistributionState_NEW = 1;
+    GRPCDistributionState_ACTIVE = 2;
+    GRPCDistributionState_OPEN = 3;
+    GRPCDistributionState_CLOSED = 4;
+    GRPCDistributionState_FINISHED = 5;
+    GRPCDistributionState_INMEDIATE_CLOSING = 6;
+    GRPCDistributionState_FINISHING = 7;
+    GRPCDistributionState_PACKAGING = 8;
+    GRPCDistributionState_PENDING_CLOSING = 9;
+    GRPCDistributionState_ORDERED_CLOSING = 10;
+    GRPCDistributionState_SAVED = 11;
+    GRPCDistributionState_SYNCHRONIZING = 12;
+    GRPCDistributionState_UNPENDING_CLOSING = 13;
+}
+
+enum GRPCLocationMessageLocationType {
+    GRPCLocationMessageLocationType_NOTSET = 0;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_SHOP = 1;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_DISTRIBUTION_CENTER = 2;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_FACTORY = 3;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_OFFICE = 4;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_TRAIN_STATION = 5;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_SUB_POST_OFFICE = 6;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_DISTRIBUTION_POINT = 7;
+    GRPCLocationMessageLocationType_LOCATION_MESSAGE_LOCATION_TYPE_WORKSHOP = 8;
+}
+
+enum GRPCReferenceState {
+    GRPCReferenceState_NOTSET = 0;
+    GRPCReferenceState_NEW = 1;
+    GRPCReferenceState_ACTIVE = 2;
+    GRPCReferenceState_OPEN = 3;
+    GRPCReferenceState_CLOSING = 4;
+    GRPCReferenceState_FINISHING = 5;
+    GRPCReferenceState_CLOSED = 6;
+    GRPCReferenceState_FINISHED = 7;
+    GRPCReferenceState_RETURNED = 8;
+    GRPCReferenceState_CANCELLED = 9;
+}
+
+enum GRPCShopContainerState {
+    GRPCShopContainerState_NOTSET = 0;
+    GRPCShopContainerState_ASSIGNED = 1;
+    GRPCShopContainerState_NOT_ASSIGNED = 2;
+    GRPCShopContainerState_PENDING_CONFIRMATION = 3;
+    GRPCShopContainerState_CONTENT_CONFIRMS = 4;
+    GRPCShopContainerState_SENT_TO_WMS = 5;
+    GRPCShopContainerState_PENDING_TO_REASIGN = 6;
+}
+
+enum GRPCShopContainerType {
+    GRPCShopContainerType_NOTSET = 0;
+    GRPCShopContainerType_BLOCK = 1;
+    GRPCShopContainerType_LICENSE_PLATE = 2;
+    GRPCShopContainerType_SHOP_CONTAINER = 3;
+}
+
+enum GRPCWorkOrderType {
+    GRPCWorkOrderType_NOTSET = 0;
+    GRPCWorkOrderType_SHOP_DISTRIBUTION = 1;
+    GRPCWorkOrderType_ECOM_DISTRIBUTION = 2;
+}
+
+// {}
+
+message GRPCCampaignTypeMessage {
+    GRPCInt32Wrapper id = 1;
+    string name = 2;
+}
+
+message GRPCCampaignsMessage {
+    GRPCCampaignTypeMessage campaignType = 1;
+    GRPCInt32Wrapper id = 2;
+    GRPCInt32Wrapper year = 3;
+}
+
+message GRPCContainerDestination {
+    GRPCFacility facility = 1;
+    GRPCStringWrapper position = 2;
+    GRPCInt32Wrapper reason = 3;
+}
+
+message GRPCCountryMessage {
+    string code = 1;
+    GRPCInt32Wrapper id = 2;
+    string name = 3;
+    string shortName = 4;
+}
+
+message GRPCDefaultGoodsStateMessage {
+    bool available = 1;
+    string code = 2;
+    string color = 3;
+    GRPCInt32Wrapper id = 4;
+    string name = 5;
+    string shortName = 6;
+}
+
+message GRPCDistribution {
+    GRPCStringWrapper description = 1;
+    GRPCInt64Wrapper distributionTableId = 2;
+    GRPCBooleanWrapper finishedPacking = 3;
+    GRPCInt64Wrapper id = 4;
+    repeated GRPCSectionsMessage sections = 5;
+    GRPCDistributionState state = 6;
+    GRPCWorkOrderType workOrderType = 7;
+}
+
+message GRPCDistributionCentersMessage {
+    GRPCStringWrapper code = 1;
+    string codeEcedisDb2 = 2;
+    GRPCCountryMessage country = 3;
+    GRPCDefaultGoodsStateMessage defaultGoodsState = 4;
+    repeated GRPCGoodsOwnersMessage goodsOwners = 5;
+    repeated GRPCGoodsStatesMessage goodsStates = 6;
+    GRPCInt32Wrapper id = 7;
+    string name = 8;
+    GRPCTypeMessage type = 9;
+}
+
+message GRPCDistributionContainer {
+    GRPCInt64Wrapper autonumericId = 1;
+    GRPCBooleanWrapper completed = 2;
+    GRPCInt32Wrapper containerType = 3;
+    GRPCStringWrapper creationTime = 4;
+    GRPCStringWrapper creationUser = 5;
+    GRPCContainerDestination destination = 6;
+    repeated GRPCDistributionContainerLine details = 7;
+    GRPCDimensions dimensions = 8;
+    GRPCInt64Wrapper distribution = 9;
+    GRPCInt64Wrapper id = 10;
+    GRPCStringWrapper lastInductionTime = 11;
+    GRPCStringWrapper lastUpdateTime = 12;
+    GRPCStringWrapper lastUpdateUser = 13;
+    bool unknownContainer = 14;
+    GRPCInt32Wrapper wave = 15;
+    GRPCInt32Wrapper weight = 16;
+}
+
+message GRPCDistributionContainerLine {
+    GRPCInt64Wrapper autonumericId = 1;
+    int32 inducedUnits = 2;
+    repeated GRPCEntryReserveByWorkOrderWave reserveByWorkOrderWave = 3;
+    int32 units = 4;
+    int32 articleId = 5;
+    int32 colorId = 6;
+    GRPCGoodsStateMessage goodsState = 7;
+    int32 sizeId = 8;
+    int32 unitsPerBatch = 9;
+}
+
+message GRPCDistributionWaveId {
+    int32 waveId = 1;
+    int64 workOrderId = 2;
+}
+
+message GRPCEntryReserveByWorkOrderWave {
+    GRPCWorkOrderWaveId key = 1;
+    GRPCReserve value = 2;
+}
+
+message GRPCEntryWorkorderWaveIdInteger {
+    GRPCWorkOrderWaveId key = 1;
+    GRPCInt32Wrapper value = 2;
+}
+
+message GRPCEntryWorkorderWaveIdReferenceState {
+    GRPCWorkOrderWaveId key = 1;
+    GRPCReferenceState value = 2;
+}
+
+message GRPCGoodsOwnersMessage {
+    repeated GRPCCampaignsMessage campaigns = 1;
+    string code = 2;
+    GRPCInt32Wrapper distributionCenterId = 3;
+    repeated GRPCGoodsStatesMessage goodsStates = 4;
+    GRPCInt32Wrapper id = 5;
+    string name = 6;
+    GRPCProductMessage product = 7;
+    repeated GRPCRetailersMessage retailers = 8;
+}
+
+message GRPCGoodsStateMessage {
+    bool available = 1;
+    string code = 2;
+    string color = 3;
+    GRPCInt32Wrapper id = 4;
+    string name = 5;
+    string shortName = 6;
+}
+
+message GRPCGoodsStatesMessage {
+    bool available = 1;
+    string code = 2;
+    string color = 3;
+    GRPCInt32Wrapper id = 4;
+    string name = 5;
+    string shortName = 6;
+}
+
+// {}
+
+// {}
+
+message GRPCLocationMessage {
+    GRPCInt32Wrapper addressId = 1;
+    repeated GRPCDistributionCentersMessage distributionCenters = 2;
+    GRPCInt32Wrapper id = 3;
+    GRPCLocationMessageLocationType locationType = 4;
+    string name = 5;
+    repeated GRPCSectionsMessage sections = 6;
+}
+
+message GRPCMultiSectionTypeDestination {
+    repeated GRPCSectionTypesMessage sectionTypes = 1;
+    GRPCLocationMessage location = 2;
+    GRPCSectionTypeMessage sectionType = 3;
+    GRPCInt32Wrapper separated = 4;
+}
+
+message GRPCProductMessage {
+    GRPCInt32Wrapper code = 1;
+    GRPCInt32Wrapper id = 2;
+    string name = 3;
+}
+
+message GRPCReference {
+    int32 amount = 1;
+    repeated GRPCEntryWorkorderWaveIdInteger amountMap = 2;
+    GRPCDetailIdentifier id = 3;
+    int32 pendingAmount = 4;
+    repeated GRPCEntryWorkorderWaveIdInteger pendingAmountMap = 5;
+    repeated GRPCEntryWorkorderWaveIdReferenceState stateMap = 6;
+}
+
+message GRPCReserve {
+    int32 amount = 1;
+    int32 wave = 2;
+    GRPCInt64Wrapper workOrder = 3;
+}
+
+message GRPCRetailerMessage {
+    string as400Trademark = 1;
+    string brandName = 2;
+    GRPCInt32Wrapper id = 3;
+    GRPCInt32Wrapper mainRetailerId = 4;
+    string name = 5;
+    repeated int32 sectionIds = 6;
+    string trademark = 7;
+}
+
+message GRPCRetailersMessage {
+    string as400Trademark = 1;
+    string brandName = 2;
+    GRPCInt32Wrapper id = 3;
+    GRPCInt32Wrapper mainRetailerId = 4;
+    string name = 5;
+    repeated int32 sectionIds = 6;
+    string trademark = 7;
+}
+
+message GRPCSectionTypeMessage {
+    GRPCInt32Wrapper id = 1;
+    string name = 2;
+}
+
+message GRPCSectionTypesMessage {
+    GRPCInt32Wrapper id = 1;
+    string name = 2;
+}
+
+message GRPCSectionsMessage {
+    GRPCInt32Wrapper id = 1;
+    string name = 2;
+    GRPCRetailerMessage retailer = 3;
+    GRPCSectionTypeMessage sectionType = 4;
+}
+
+message GRPCShopContainer {
+    GRPCStringWrapper assignTime = 1;
+    GRPCStringWrapper bumaTime = 2;
+    GRPCStringWrapper closeTime = 3;
+    GRPCStringWrapper creationTime = 4;
+    GRPCStringWrapper creationUser = 5;
+    GRPCDestination destination = 6;
+    repeated GRPCShopContainerLine details = 7;
+    int32 height = 8;
+    GRPCInt64Wrapper id = 9;
+    int32 length = 10;
+    GRPCInt32Wrapper manualSectionTypeId = 11;
+    GRPCShopContainerState state = 12;
+    GRPCInt32Wrapper targetId = 13;
+    GRPCShopContainerType type = 14;
+    GRPCStringWrapper unassignTime = 15;
+    int32 weight = 16;
+    int32 width = 17;
+}
+
+message GRPCShopContainerLine {
+    GRPCStringWrapper distributionLineAutonumericId = 1;
+    int32 units = 2;
+}
+
+// {}
+
+message GRPCTypeMessage {
+    int32 id = 1;
+    string name = 2;
+}
+
+message GRPCWorkOrderWaveId {
+    GRPCInt32Wrapper waveId = 1;
+    GRPCInt64Wrapper workorderId = 2;
+}
