@@ -1,0 +1,1 @@
+# java-openapi2proto
